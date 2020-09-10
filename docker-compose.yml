@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongodata:/data/db
+
+  web:
+    image: uofusomd/php_mongo_gd
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    environment:
+      DB_URL: mongodb://db/ojr
+      API_URL: http://api
+      enc_key: jsuahyy639Ah32kj^gs
+    depends_on:
+      - db
+    volumes:
+      - ./html:/var/www/html
+    #   # List the path of your existing file on the left of the colon
+    #   # and leave the path on the right as is and uncomment the line.
+    #   # You must have at least the certificate and the key files
+    #   - ./my_cert.crt:/etc/ssl/certs/server.crt
+    #   - ./my_key.key:/etc/ssl/private/server.key
+    #   # Optionally you can also pass a CA file
+    #   - ./my_ca.crt:/etc/ssl/certs/server-ca.crt
+
+volumes:
+  mongodata:

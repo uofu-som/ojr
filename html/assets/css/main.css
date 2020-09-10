@@ -1,0 +1,65 @@
+.camera_solo_wrapper {
+	position: absolute;
+	border: solid 5px;
+	right: 0px;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+.camera_wrapper {
+	border: solid 5px;
+	width: 50%;
+	/*max-width: 600px;*/
+	float: left;
+}
+
+.camera_flip_90{
+	transform: rotate(90deg);
+}
+
+.camera_flip_180{
+	transform: rotate(180deg);
+}
+
+.camera_flip_270{
+	transform: rotate(270deg);
+}
+
+.camera_img {
+	width: 100%;
+	/*max-width: 600px;*/
+}
+
+.camera_card{
+	float: left;
+	clear: none;
+}
+
+#main_nav{
+	padding-left: 15px;
+	float: left;
+	clear: both;
+}
+
+.section{
+	float: left;
+	clear: both;
+	width: 100%;
+	max-height: 100%;
+}
+
+.entry_edit {
+	height: 50%;
+}
+
+.entry_edit_editor {
+	border: 1px solid black;
+}
+
+.entry_edit_preview {
+	border: 1px solid black;
+}
+
+.sidebar_wrapper {
+	float: left;
+}

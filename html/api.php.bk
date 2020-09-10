@@ -1,0 +1,171 @@
+<?php
+require_once 'vendor/autoload.php'; 
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+	header("Pragma: no-cache");
+$return_array=['rc'=>0,'messages'=>[]];
+function csv_injest($filename,$headers_exist=true){
+	$row = 0;
+	$table = [];
+	$headers = [];
+	if (($handle = fopen($filename, "r")) !== FALSE) {
+		while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+			if($headers_exist && $row===0){
+				$headers = $data;
+			}elseif($headers_exist){
+				$num = count($data);
+				$hdata = [];
+				for ($c=0; $c < $num; $c++) {
+					$hdata[$headers[$c]]=$data[$c];
+				}
+				$table[] = $hdata;
+			}else{
+				$table[] = $data;
+			}
+			$row++;
+		}
+		fclose($handle);
+	}
+	return $table;
+}
+function imagecreatefromfile( $filename ) {
+	// if (!file_exists($filename)) {
+	// 	throw new InvalidArgumentException('File "'.$filename.'" not found.');
+	// }
+	switch ( strtolower( array_pop( explode('.', substr($filename, 0, strpos($filename, '?'))))) ) {
+		case 'jpeg':
+		case 'jpg':
+			return imagecreatefromjpeg($filename);
+		break;
+
+		case 'png':
+			return imagecreatefrompng($filename);
+		break;
+
+		case 'gif':
+			return imagecreatefromgif($filename);
+		break;
+
+		default:
+			throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
+		break;
+	}
+}
+function imagelinethick($image, $x1, $y1, $x2, $y2, $color, $thick = 1){
+	/* this way it works well only for orthogonal lines
+	imagesetthickness($image, $thick);
+	return imageline($image, $x1, $y1, $x2, $y2, $color);
+	*/
+	if ($thick == 1) {
+		return imageline($image, $x1, $y1, $x2, $y2, $color);
+	}
+	$t = $thick / 2 - 0.5;
+	if ($x1 == $x2 || $y1 == $y2) {
+		return imagefilledrectangle($image, round(min($x1, $x2) - $t), round(min($y1, $y2) - $t), round(max($x1, $x2) + $t), round(max($y1, $y2) + $t), $color);
+	}
+	$k = ($y2 - $y1) / ($x2 - $x1); //y = kx + q
+	$a = $t / sqrt(1 + pow($k, 2));
+	$points = array(
+		round($x1 - (1+$k)*$a), round($y1 + (1-$k)*$a),
+		round($x1 - (1-$k)*$a), round($y1 - (1+$k)*$a),
+		round($x2 + (1+$k)*$a), round($y2 - (1-$k)*$a),
+		round($x2 + (1-$k)*$a), round($y2 + (1+$k)*$a),
+	);
+	imagefilledpolygon($image, $points, 4, $color);
+	return imagepolygon($image, $points, 4, $color);
+}
+$headers=array();
+// $return_array['messages']['headers']=[];
+foreach (getallheaders() as $name => $value) {
+	$headers[$name]=$value;
+	// $return_array['messages']['headers'][$name]=$value;
+}
+$return_array['messages']['headers']=$headers;
+
+switch (strtolower($_SERVER['REQUEST_METHOD'])) {
+	case 'get':
+		//	Ground Rules: only excepting url parameters object (required), filterby (optional), filtervalue (optional)
+		switch (strtolower($_GET['object'])) {
+			default:
+				# code...
+				break;
+		}
+		break;
+	case 'post':
+		switch (strtolower($_GET['object'])) {
+			case 'csv':
+				switch ($_GET['action']) {
+					case 'json':
+						if(!empty($_FILES)){
+							$return_array['messages']['_FILES'] = $_FILES;
+						}else{
+							$return_array['data'] = csv_injest('php://input',true);
+							$return_array['rc'] = 1;
+						}
+						break;
+					
+					default:
+						# code...
+						break;
+				}
+				break;
+			case 'picture':
+				break;
+			
+			default:
+				$details_raw = file_get_contents('php://input');
+				// $details = json_decode($details_raw,true);
+				$details = json_decode($details_raw,true);
+				// echo('print_r($details)'.PHP_EOL);
+				// echo($details_raw.PHP_EOL);
+				// echo(print_r($details,true).PHP_EOL);
+				// echo('print_r($_POST)'.PHP_EOL);
+				// echo(print_r($_POST,true).PHP_EOL);
+				// exit();
+				if(empty($details)){
+					$return_array['messages'][] = "Decoding JSON failed. \$details is NULL.";
+					$return_array['messages']['details_raw'] = $details_raw;
+				}else{
+					$client = new MongoDB\Client(''.$_ENV['DB_URL'].'');
+					$db_name = "ojr";
+					$collection_name = 'raw_log';
+					$collection = $client->$db_name->$collection_name;
+					$result = $collection->insertOne( $details );
+					switch ($result->getInsertedCount()) {
+						case 1:
+							$return_array['rc'] = 1;
+							$return_array['status'] = 'success';
+							$return_array['insertedId'] = $result->getInsertedId();
+							break;
+						default:
+							$return_array['messages'][]="Expecting 1 insert got ".$result->getInsertedCount()."";
+							break;
+					}
+				}
+	
+				// $return_array['submitted_data'] = $details;
+				break;
+		}
+		break;
+	case 'put':
+		break;
+	case 'delete':
+		break;
+	default:
+		$return_array['messages']['request_type']=$_SERVER['REQUEST_METHOD'];
+		break;
+}
+
+// $_PAYLOAD_RAW = file_get_contents('php://input');
+// $return_array['messages']['_PAYLOAD_RAW']=$_PAYLOAD_RAW;
+
+// $_PAYLOAD_DECODED=[];
+// if(!empty($_PAYLOAD_RAW)){
+// 	$_PAYLOAD_DECODED = json_decode($_PAYLOAD_RAW,true);
+// }
+
+header('Content-Type: application/json');
+echo(json_encode($return_array,JSON_PRETTY_PRINT));
+// echo(json_encode($return_array));
+
+?>

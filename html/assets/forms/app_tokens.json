@@ -1,0 +1,22 @@
+{
+	"App Tokens": {
+		"field_type": "dynamic-multi",
+		"values": {
+			"Token": {
+				"field_type": "string",
+				"placeholder": "This will be created once submitted"
+			},
+			"Token Name": {
+				"field_type": "string"
+			},
+			"Tags": {
+				"field_type": "dynamic-multi",
+				"values": {
+					"Tag Name": {
+						"field_type": "string"
+					}
+				}
+			}
+		}
+	}
+}
