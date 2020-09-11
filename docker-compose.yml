@@ -14,7 +14,6 @@ services:
     image: uofusomd/php_mongo_gd
     ports:
       - 80:80
-      - 443:443
     restart: always
     environment:
       DB_URL: mongodb://db/ojr
