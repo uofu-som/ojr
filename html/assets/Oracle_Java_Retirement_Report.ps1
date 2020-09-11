@@ -1,10 +1,11 @@
-﻿Param(
-	[string]$a#%apiurloverride%, 
-	[string]$t#%AppAuthToken%, 
-	[switch]$suppressFileSearch, 
-	[switch]$v
+﻿
+Param(
+	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][string]$a#%apiurloverride%,
+	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][string]$t#%AppAuthToken%,
+	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][switch]$suppressFileSearch,
+	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][switch]$v,
+	[Parameter(ParameterSetName='Optionals', Mandatory=$false, ValueFromRemainingArguments=$true)][String[]]$Tags
 )
-
 clear
 $version = "0.0.1"
 Function captureOutput{
@@ -316,6 +317,7 @@ $script | Add-Member -MemberType NoteProperty -Name type -Value "PowerShell"
 $script | Add-Member -MemberType NoteProperty -Name version -Value $version
 $return_info | Add-Member -MemberType NoteProperty -Name script -Value $script 
 $return_info | Add-Member -MemberType NoteProperty -Name _object -Value "ojr" 
+$return_info | Add-Member -MemberType NoteProperty -Name tags -Value $Tags
 
 $computerInfo		= Get-CimInstance Win32_ComputerSystem
 $diskInfo			= Get-CimInstance Win32_LogicalDisk
