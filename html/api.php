@@ -53,7 +53,7 @@
 			$return_message['data']['encoding'] = preg_match('//u', $data);
 		}else{
 			$return_message['data'][]=gettype($data);
-			$return_message['data'][]=substr($data,0,5);
+			$return_message['data'][]=$data_decoded;
 		}
 			foreach($return_headers as $header) {
 				header($header);
