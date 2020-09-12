@@ -42,6 +42,9 @@
 	}
 
 	$data = file_get_contents("php://input");
+
+	$data_decoded = json_decode($data,true);
+
 		if(is_null($data)){
 			$return_message['data'][]="[is null]";
 		}else{
@@ -53,9 +56,7 @@
 			}
 			echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
 			exit();
-
-	$data_decoded = json_decode($data,true);
-
+			
 	$data_decoded_orig = $data_decoded;
 	$d0="{}";
 	if(is_null($data_decoded)){
