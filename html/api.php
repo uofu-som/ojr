@@ -43,7 +43,7 @@
 
 	$data = file_get_contents("php://input");
 		if(is_null($data)){
-			$return_message['message']['data']="[is null]";
+			// $return_message['message']['data']="[is null]";
 		}else{
 			$return_message['message']['data']=$data;
 		}
