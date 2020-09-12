@@ -5,7 +5,7 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<!-- <meta name="google-signin-client_id" content="509284590532-elvq72nt1ph18m1cjc3rkhifhnul46b7.apps.googleusercontent.com"> -->
-	<link rel="shortcut icon" href="/vendor/fa/svgs/solid/medkit.svg" type="image/svg" />
+	<link rel="shortcut icon" href="/vendor/fa/svgs/brands/java.svg" type="image/svg" />
 	<link rel="stylesheet" type="text/css" href="vendor/fa/css/all.css" />
 	<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />

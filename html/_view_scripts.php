@@ -1,5 +1,5 @@
 <h1>Scripts</h1>
-<p>The purpose of this script download section is to inject your owner-id into the scripts that are downloaded. This automatically links the information reported from these scripts to your user account for easier analysis.</p>
+<p>The purpose of this script download section is to inject the App Tokens into the scripts that are downloaded. This automatically links the information reported from these scripts to your user account for easier analysis.</p>
 <div>
 	<h2>App Token Linked Scripts</h2>
 	<div v-if="app_tokens.length == 0">
