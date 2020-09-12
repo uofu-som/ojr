@@ -468,6 +468,7 @@ invalid_token:
 							switch ($data_decoded['_action']) {
 								case 'login':
 									$return_message = $auth->login($data_decoded['email'],$data_decoded['password']);
+									$return_message['message'][]='humpty dumpty';
 									break;
 								default:
 									break;
