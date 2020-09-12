@@ -54,7 +54,8 @@
 			foreach($return_headers as $header) {
 				header($header);
 			}
-			echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+			echo $data;
+			// echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
 			exit();
 
 	$data_decoded_orig = $data_decoded;
