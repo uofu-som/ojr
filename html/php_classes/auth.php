@@ -143,7 +143,7 @@ class Auth{
 								$return_array['roles'][] = $role_name;
 							}
 						}
-						$return_array['user']=$user;
+						// $return_array['user']=$user;
 						return $return_array;
 					}else{
 						return $atoken;
