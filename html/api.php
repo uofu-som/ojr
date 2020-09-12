@@ -47,6 +47,7 @@
 
 		if(is_null($data_decoded)){
 			$return_message['data'][]="[data_decoded is null]";
+			$return_message['data']['data_decoded']=$data_decoded;
 		}else{
 			$return_message['data'][]=gettype($data);
 			$return_message['data'][]=substr($data,0,5);
@@ -54,8 +55,8 @@
 			foreach($return_headers as $header) {
 				header($header);
 			}
-			echo $data;
-			// echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+			// echo $data;
+			echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
 			exit();
 
 	$data_decoded_orig = $data_decoded;
