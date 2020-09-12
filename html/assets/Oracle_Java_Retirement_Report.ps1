@@ -3,11 +3,20 @@ Param(
 	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][string]$a#%apiurloverride%,
 	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][string]$t#%AppAuthToken%,
 	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][switch]$suppressFileSearch,
+	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][switch]$version,
 	[Parameter(ParameterSetName='Optionals', Mandatory=$false)][switch]$v,
 	[Parameter(ParameterSetName='Optionals', Mandatory=$false, ValueFromRemainingArguments=$true)][String[]]$Tags
 )
+
 clear
-$version = "0.0.1"
+
+$version_num = "0.0.1"
+
+if($version){
+	$version_num
+	exit
+}
+
 Function captureOutput{
 	param($path, $fileName, $params)
 	cd "$path"
@@ -306,7 +315,6 @@ Function Get-RemoteProgram {
 	}
 }
 
-clear
 $return_info = New-Object -TypeName psobject
 
 $time = New-Object -TypeName psobject
@@ -314,7 +322,7 @@ $time | Add-Member -MemberType NoteProperty -Name Start -Value (Get-Date)
 
 $script = New-Object -TypeName psobject
 $script | Add-Member -MemberType NoteProperty -Name type -Value "PowerShell"
-$script | Add-Member -MemberType NoteProperty -Name version -Value $version
+$script | Add-Member -MemberType NoteProperty -Name version -Value $version_num
 $return_info | Add-Member -MemberType NoteProperty -Name script -Value $script 
 $return_info | Add-Member -MemberType NoteProperty -Name _object -Value "ojr" 
 $return_info | Add-Member -MemberType NoteProperty -Name tags -Value $Tags
@@ -369,9 +377,7 @@ $time | Add-Member -MemberType NoteProperty -Name Elapsed -Value $($time.End - $
 $return_info | Add-Member -MemberType NoteProperty -Name Time -Value $time 
 cd $PSScriptRoot
 $return_json = ($return_info | ConvertTo-Json -Depth 100 -Compress)
-if($v){
-	$return_info
-}
+
 if($a -ne ""){
 	#$Cred = Get-Credential
 	#Invoke-RestMethod -Method 'Post' -Uri $a -Credential $Cred -Body $return_json -OutFile output_json.csv
@@ -389,7 +395,8 @@ if($a -ne ""){
 	# Invoke-RestMethod -Method 'Post' -Headers $headers -Uri $a -Body $return_json -OutFile output_json.csv
 	Invoke-RestMethod -Method 'Post' -Headers $headers -Uri $a -Body $return_json 
 }else{
-	$return_json > Java.json
+	$v = $true
+}
+if($v){
 	$return_json
 }
-

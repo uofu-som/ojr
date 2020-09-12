@@ -15,11 +15,11 @@ return_json="${return_json}\"_object\": \"ojr\","
 read -r -d '' message_usage << EOM
 Usage: $0 [-v | [-V] [-id <owner_identifier_string>] ]
 	-a <url> :            Reporting URL to POST data
-    -v :                  Version Info (Ignores other arguments and exits)
+    -V :                  Version Info (Ignores other arguments and exits)
     -id | --owner_id :    Identifier string that will link this computer to an owner
                             Please use a University email address or OrgID to simplify
                             Identification
-    -V :                  Verbose
+    -v :                  Verbose
     -o <file-name>:       Output to file named <file-name>
 EOM
 
@@ -28,11 +28,11 @@ verbose=false
 owner_id=""
 
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
-		-v | --version )
+		--version )
 				echo "Version: $version"
 				exit 0
 				;;
-		-V | --verbose )
+		-v | -V | --verbose )
 				verbose=true
 				;;
 		-id | --owner_id )
