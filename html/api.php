@@ -45,38 +45,28 @@
 
 	$data_decoded = json_decode($data,true);
 
-	$data_decoded_orig = $data_decoded;
+	$data_decoded_orig = null;
 	$d0="{}";
 	if(is_null($data_decoded)){
 		if(!empty(trim($data))){
-
-			$return_message['rc'] = false;
-			$return_message['status']="error";
-			$return_message['message'][]="Data didn't decode and it's not empty...";
-			$return_message['data']=$data;
-			foreach($return_headers as $header) {
-				header($header);
+			$d1 = substr($data, 1, -1);
+			$d1 = explode(",",$d1);
+			$d0 = "{";
+			$rpattern = array(); $rplace = array();
+			$rpattern[]='/^["\']{0,1}([\w\s]*)["\']{0,1}$/';$rplace[]='\1';
+			$is_first=true;
+			foreach ($d1 as $value) {
+				$d2 = explode(":", $value);
+				if($is_first){
+					$is_first=false;
+					$d0 .= '"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
+				}else{
+					$d0 .= ',"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
+				}
+				$d0 = preg_replace('/""/', '"', $d0);
 			}
-			echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
-			exit();
-			// $d1 = substr($data, 1, -1);
-			// $d1 = explode(",",$d1);
-			// $d0 = "{";
-			// $rpattern = array(); $rplace = array();
-			// $rpattern[]='/^["\']{0,1}([\w\s]*)["\']{0,1}$/';$rplace[]='\1';
-			// $is_first=true;
-			// foreach ($d1 as $value) {
-			// 	$d2 = explode(":", $value);
-			// 	if($is_first){
-			// 		$is_first=false;
-			// 		$d0 .= '"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
-			// 	}else{
-			// 		$d0 .= ',"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
-			// 	}
-			// 	$d0 = preg_replace('/""/', '"', $d0);
-			// }
-			// $d0 .= "}";
-			// $data_decoded = json_decode($d0,true);
+			$d0 .= "}";
+			$data_decoded = json_decode($d0,true);
 		}else{
 			$data="{}";
 			$d0="{}";
@@ -468,7 +458,6 @@ invalid_token:
 							switch ($data_decoded['_action']) {
 								case 'login':
 									$return_message = $auth->login($data_decoded['email'],$data_decoded['password']);
-									$return_message['message'][]='humpty dumpty';
 									break;
 								default:
 									break;

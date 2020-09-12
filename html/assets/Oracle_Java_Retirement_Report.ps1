@@ -378,6 +378,9 @@ $return_info | Add-Member -MemberType NoteProperty -Name Time -Value $time
 cd $PSScriptRoot
 $return_json = ($return_info | ConvertTo-Json -Depth 100 -Compress)
 
+$enc = [System.Text.Encoding]::UTF8
+$return_json = $enc.GetBytes($return_json)
+
 if($a -ne ""){
 	#$Cred = Get-Credential
 	#Invoke-RestMethod -Method 'Post' -Uri $a -Credential $Cred -Body $return_json -OutFile output_json.csv
