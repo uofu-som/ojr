@@ -46,6 +46,7 @@
 			$return_message['data'][]="[is null]";
 		}else{
 			$return_message['data'][]=gettype($data);
+			$return_message['data'][]=substr($data,0,5);
 		}
 			foreach($return_headers as $header) {
 				header($header);
