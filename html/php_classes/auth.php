@@ -151,7 +151,7 @@ class Auth{
 				}else{
 					return array('rc'=>false,'status'=>'failed'
 						,'records'=>''.$row_count.''
-						,'message'=>array("Authentication Failed")
+						,'message'=>array("reason"=>"Authentication Failed","user"=>$user)
 					);
 				}
 				break;
