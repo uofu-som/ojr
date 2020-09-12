@@ -42,6 +42,12 @@
 	}
 
 	$data = file_get_contents("php://input");
+			// $return_message['data']=$data;
+			foreach($return_headers as $header) {
+				header($header);
+			}
+			echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+			exit();
 
 	$data_decoded = json_decode($data,true);
 
@@ -54,11 +60,7 @@
 			$return_message['status']="error";
 			$return_message['message'][]="Data didn't decode and it's not empty...";
 			$return_message['data']=$data;
-			foreach($return_headers as $header) {
-				header($header);
-			}
-			echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
-			exit();
+
 			// $d1 = substr($data, 1, -1);
 			// $d1 = explode(",",$d1);
 			// $d0 = "{";
@@ -309,7 +311,7 @@ valid_token:
 							break;
 						case 'ojr':
 							Funct::LoadClass('ojr');
-							$return_message = OJR::add($data_decoded,$token_attr);
+							$return_message['message'][] = OJR::add($data_decoded,$token_attr);
 							break;
 						default:
 							$return_message['message']='Object unknown: '.$data_decoded['_object'].' <'.__FILE__.':'.__LINE__.'>';
