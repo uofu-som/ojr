@@ -45,34 +45,34 @@
 
 	$data_decoded = json_decode($data,true);
 
-	// $data_decoded_orig = null;
-	// $d0="{}";
-	// if(is_null($data_decoded)){
-	// 	if(!empty(trim($data))){
-	// 		$d1 = substr($data, 1, -1);
-	// 		$d1 = explode(",",$d1);
-	// 		$d0 = "{";
-	// 		$rpattern = array(); $rplace = array();
-	// 		$rpattern[]='/^["\']{0,1}([\w\s]*)["\']{0,1}$/';$rplace[]='\1';
-	// 		$is_first=true;
-	// 		foreach ($d1 as $value) {
-	// 			$d2 = explode(":", $value);
-	// 			if($is_first){
-	// 				$is_first=false;
-	// 				$d0 .= '"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
-	// 			}else{
-	// 				$d0 .= ',"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
-	// 			}
-	// 			$d0 = preg_replace('/""/', '"', $d0);
-	// 		}
-	// 		$d0 .= "}";
-	// 		$data_decoded = json_decode($d0,true);
-	// 	}else{
-	// 		$data="{}";
-	// 		$d0="{}";
-	// 		$data_decoded = json_decode("{}",true);
-	// 	}
-	// }
+	$data_decoded_orig = null;
+	$d0="{}";
+	if(is_null($data_decoded)){
+		if(!empty(trim($data))){
+			$d1 = substr($data, 1, -1);
+			$d1 = explode(",",$d1);
+			$d0 = "{";
+			$rpattern = array(); $rplace = array();
+			$rpattern[]='/^["\']{0,1}([\w\s]*)["\']{0,1}$/';$rplace[]='\1';
+			$is_first=true;
+			foreach ($d1 as $value) {
+				$d2 = explode(":", $value);
+				if($is_first){
+					$is_first=false;
+					$d0 .= '"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
+				}else{
+					$d0 .= ',"'.preg_replace($rpattern,$rplace,$d2[0]).'":"'.preg_replace($rpattern,$rplace,$d2[1]).'"';
+				}
+				$d0 = preg_replace('/""/', '"', $d0);
+			}
+			$d0 .= "}";
+			$data_decoded = json_decode($d0,true);
+		}else{
+			$data="{}";
+			$d0="{}";
+			$data_decoded = json_decode("{}",true);
+		}
+	}
 
 	// Check Header for Bearer Token
 	$token = null;
