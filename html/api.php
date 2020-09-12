@@ -45,7 +45,7 @@
 		if(is_null($data)){
 			// $return_message['message']['data']="[is null]";
 		}else{
-			$return_message['message']['data']=$data;
+			// $return_message['message']['data']=$data;
 		}
 			foreach($return_headers as $header) {
 				header($header);
