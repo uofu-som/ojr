@@ -48,6 +48,7 @@
 		if(is_null($data_decoded)){
 			$return_message['data'][]="[data_decoded is null]";
 			$return_message['data']['data_decoded']=$data_decoded;
+			$return_message['data']['encoding']=mb_detect_encoding($data);
 		}else{
 			$return_message['data'][]=gettype($data);
 			$return_message['data'][]=substr($data,0,5);
