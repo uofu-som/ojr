@@ -42,7 +42,7 @@
 	}
 
 	$data = file_get_contents("php://input");
-			// $return_message['data']=$data;
+			$return_message['data']=$data;
 			foreach($return_headers as $header) {
 				header($header);
 			}
