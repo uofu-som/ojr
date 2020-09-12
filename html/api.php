@@ -54,6 +54,11 @@
 			$return_message['status']="error";
 			$return_message['message'][]="Data didn't decode and it's not empty...";
 			$return_message['data']=$data;
+			foreach($return_headers as $header) {
+				header($header);
+			}
+			echo(json_encode($return_message,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+			exit();
 			// $d1 = substr($data, 1, -1);
 			// $d1 = explode(",",$d1);
 			// $d0 = "{";
