@@ -20,8 +20,11 @@
 					<div class="row"v-if="!isBlank(record.script)">
 						<div class="col-3">{{ record.script.type }} : {{ record.script.version }}</div>
 						<div class="col-9" v-if="record.script.type.normalize() === 'PowerShell'">{{ record.Time.Start.DateTime }}</div>
-						<div class="col-9" v-else-if="record.script.type.normalize() === 'bash'">{{ new Date( ( record.time_start_utc_sec * 1000 ) ) }}</div>
+						<div class="col-9" v-else-if="record.script.type.normalize() === 'bash'">{{ (new Date((record.time_start_utc_sec*1000))).toString() }}</div>
 						<div class="col-9" v-else>What's up, Doc?!</div>
+					</div>
+					<div class="row" v-if="record.tags.length > 0 ">
+						<div class="btn btn-info" v-for="tag in record.tags">{{ tag }}</div>
 					</div>
 					<div class="row" v-if="!isBlank(record['search-registry'])">
 						<div class="col-sm-12 col-md-6 col-lg-4" style="text-align: center; margin-top: auto; margin-bottom: auto; background-color: lightgrey;">Registry Records</div>
