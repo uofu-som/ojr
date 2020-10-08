@@ -15,6 +15,10 @@ $styles['h3']=array();
 	$styles['h3']['font-size']=array();
 	$styles['h3']['font-size']['_default']="1.25rem";
 
+$styles['h4']=array();
+	$styles['h4']['font-size']=array();
+	$styles['h4']['font-size']['_default']="1.1rem";
+
 $styles['p']=array();
 	$styles['p']['margin-top']=array();
 	$styles['p']['margin-top']['_default']="0px";

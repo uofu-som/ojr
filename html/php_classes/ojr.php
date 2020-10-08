@@ -235,6 +235,31 @@ class OJR{
 		return $return_array;
 	}
 
+	static function listHostRecords($hostname=null){
+		$return_array = array();
+		$return_array['message'] = [];
+		if(is_null($hostname)){
+			$return_array['message'][] = "hostname not passed in";
+		}else{
+			$return_array['message'][] = "starting db request";
+
+			$filter = ['hostname'=>$hostname];
+			$database = new MDB(array('db'=>self::DB, 'collection'=>self::COLLECTION));
+			$db_results = $database->get(array('filter'=>$filter));
+			switch (count($db_results['rows'])) {
+				case 0:
+					$return_array['message'][] = "Nothing found for host: ".$hostname."";
+					$return_array['data'] = $db_results['rows'];
+					break;
+				default:
+					$return_array['data'] = $db_results['rows'];
+					break;
+			}
+			return $return_array;
+		}
+		return $return_array;
+	}
+
 	static function listUniqueTags(){
 		$a = func_get_args(); 
 		$i = func_num_args(); 

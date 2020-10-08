@@ -10,7 +10,8 @@
 			<li v-if="!isBlank(auth_user.token)">
 				<span class="btn btn-link col-sm" href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false">Reports</span>
 				<ul class="collapse list-unstyled" id="reportsSubmenu" style="margin-left: 15px">
-					<li class="btn btn-link col-sm" @click="report_main_get();page_nav_set('reports_main');" v-if="!isBlank(auth_user.token)">Main</li>
+					<li class="btn btn-link col-sm" @click="page_nav_set('reports_main');" v-if="!isBlank(auth_user.token)">Main</li>
+					<li class="btn btn-link col-sm" @click="page_nav_set('reports_hosts');" v-if="!isBlank(auth_user.token)">Hosts</li>
 					<!-- <li>Page</li>
 					<li>Page</li> -->
 				</ul>

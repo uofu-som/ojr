@@ -65,6 +65,12 @@
 		messages_action: [],
 		messages_display: [],
 		reports: {
+			host:{
+				_sortAsc: true,
+				_sortBy: "hostname",
+				hostname: null,
+				data:[]
+			},
 			main:{
 				_sortAsc: true,
 				_sortBy: "path",
@@ -171,6 +177,13 @@
 						this.view.main=view;
 						break;
 					case 'reports_main':
+						report_main_get();
+						this.view.main=view;
+						break;
+					case 'reports_hosts':
+						dashboard_hosts_get();
+						this.reports.host.data=[];
+						this.reports.host.hostname=null;
 						this.view.main=view;
 						break;
 					default:
@@ -181,6 +194,9 @@
 			},
 			"page_title_set": function() {
 				document.title=this.globals.site_title;
+			},
+			"report_host_get": function(hostname){
+				report_host_get(hostname);
 			},
 			"report_main_get": function() {
 				report_main_get();
@@ -3167,6 +3183,22 @@
 		return 0;
 	}
 
+	function sort_by_hostname_asc(a,b){
+		if (a.hostname.toLowerCase() < b.hostname.toLowerCase())
+			return -1;
+		if (a.hostname.toLowerCase() > b.hostname.toLowerCase())
+			return 1;
+		return 0;
+	}
+
+	function sort_by_hostname_dsc(a,b){
+		if (a.hostname.toLowerCase() < b.hostname.toLowerCase())
+			return 1;
+		if (a.hostname.toLowerCase() > b.hostname.toLowerCase())
+			return -1;
+		return 0;
+	}
+
 	function sort_reports_main(by){
 		if(main_data.reports.main._sortBy === by){
 			main_data.reports.main._sortAsc = !main_data.reports.main._sortAsc;
@@ -3295,6 +3327,7 @@
 	function dashboard_hosts_get_callback(status,endpoint,return_message,original_data,headers){
 		return_message = JSON.parse(return_message);
 		main_data.dashboard.hosts.data=return_message.data;
+		main_data.dashboard.hosts.data.sort(sort_by_hostname_asc);
 		cache_set();
 	}
 
@@ -3347,6 +3380,22 @@
 	function report_main_get_callback(status,endpoint,return_message,original_data,headers){
 		return_message = JSON.parse(return_message);
 		main_data.reports.main.data=return_message.data;
+		cache_set();
+	}
+
+	function report_host_get(hostname){
+		var send_params = {};
+		send_params['_object'] = 'reports';
+		send_params['_action'] = 'host';
+		send_params['hostname'] = hostname;
+		main_data.reports.host.hostname = hostname;
+		main_data.reports.host.data = [];
+		api_get(send_params, report_host_get_callback);
+	}
+
+	function report_host_get_callback(status,endpoint,return_message,original_data,headers){
+		return_message = JSON.parse(return_message);
+		main_data.reports.host.data=return_message.data;
 		cache_set();
 	}
 

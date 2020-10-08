@@ -29,6 +29,8 @@
 			case 1:
 				if(!empty($a[0]['message'])){
 					$funct_return_message['message']=$a[0]['message'];
+				}elseif(!empty($a[0]['messages'])){
+					$funct_return_message['messages']=$a[0]['messages'];
 				}else{
 					$funct_return_message['message']='Unknown Method';
 				}
@@ -195,6 +197,13 @@ valid_token:
 								$return_message['status']="success";
 								$return_message['message']=[];
 								$return_message['data']=OJR::listUniqueFiles();
+								break;
+							case 'host':
+								$return_message['rc']=1;
+								$return_message['status']="success";
+								$tmp=OJR::listHostRecords($data_decoded['hostname']);
+								$return_message['message']=$tmp['message'];
+								$return_message['data']=$tmp['data'];
 								break;
 							
 							default:
