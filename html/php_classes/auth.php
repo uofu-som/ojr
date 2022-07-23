@@ -171,22 +171,22 @@ class Auth{
 			$g_response = json_decode($g_response,true);
 			$g_response['login_source']='google';
 				// [iss] => accounts.google.com
-				// [azp] => 509284590532-elvq72nt1ph18m1cjc3rkhifhnul46b7.apps.googleusercontent.com
-				// [aud] => 509284590532-elvq72nt1ph18m1cjc3rkhifhnul46b7.apps.googleusercontent.com
-				// [sub] => 108909779659057511317
-				// [email] => everett.pilling@gmail.com
-				// [email_verified] => true
-				// [at_hash] => y8MOmiKtSiAfbQFck1qlMQ
-				// [name] => Everett Pilling
-				// [picture] => https://lh3.googleusercontent.com/-OAb0hwbpmDE/AAAAAAAAAAI/AAAAAAAAEHw/RwvgVeOWK4E/s96-c/photo.jpg
-				// [given_name] => Everett
-				// [family_name] => Pilling
+				// [azp] => [0-9]{12,12}-[a-z0-9]{12,12}.apps.googleusercontent.com
+				// [aud] => [0-9]{12,12}-[a-z0-9]{12,12}.apps.googleusercontent.com
+				// [sub] => [0-9]{12,12}
+				// [email] => [username]@gmail.com
+				// [email_verified] => true|false
+				// [at_hash] => [a-zA-Z0-9]{22,22}
+				// [name] => [Name]
+				// [picture] => https://lh3.googleusercontent.com/[path_to_photo]/photo.jpg
+				// [given_name] => [First Name]
+				// [family_name] => [Last Name]
 				// [locale] => en
-				// [iat] => 1562049158
-				// [exp] => 1562052758
-				// [jti] => d8671732909f0e9418c0d4a7b0ed543df67bd43a
+				// [iat] => [seconds_since_1970-01-01]
+				// [exp] => [seconds_since_1970-01-01]
+				// [jti] => [a-f0-9]{40,40}
 				// [alg] => RS256
-				// [kid] => 118df254b837189d1bc2be9650a82112c00df5a4
+				// [kid] => [a-f0-9]{40,40}
 				// [typ] => JWT
 			// echo("<pre>".PHP_EOL);
 			// echo(print_r($g_response,true).PHP_EOL);
